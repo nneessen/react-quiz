@@ -24,9 +24,16 @@ const initialState = {
 function reducer(state, action) {
   switch (action.type) {
     case "dataReceived":
-      return { ...state, questions: action.payload, status: "ready" };
+      return {
+        ...state,
+        questions: action.payload,
+        status: "ready",
+      };
     case "dataFailed":
-      return { ...state, status: "error" };
+      return {
+        ...state,
+        status: "error",
+      };
     case "start":
       return { ...state, status: "active" };
     case "newAnswer":
@@ -47,6 +54,12 @@ function reducer(state, action) {
         status: "finished",
         highscore:
           state.points > state.highscore ? state.points : state.highscore,
+      };
+    case "restart":
+      return {
+        ...initialState,
+        questions: state.questions,
+        status: "ready",
       };
     default:
       throw new Error("Action unknown");
@@ -106,6 +119,7 @@ export default function App() {
             points={points}
             maxPossiblePoints={maxPossiblePoints}
             highscore={highscore}
+            dispatch={dispatch}
           />
         )}
       </Main>
